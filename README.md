@@ -133,3 +133,8 @@ Como resultado, el jugador puede chocar con los obstáculos:
 
 Al chocar, se puede ver que el sprite rota. Si se desea evitar esto, se puede bloquear la rotación del eje Z.
 
+> Agrega un objeto que ocupe un área que lance al jugador hacia otra zona del mapa.
+
+Para ello, se configura un Area Effector con un Box Collider 2D de la siguiente manera:
+
+![Area effector](./Media/effector.png)

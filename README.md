@@ -47,3 +47,56 @@ Para generar las colisiones, a las capas de obstáculos y decoración se les ha 
 Por último, dos capas más se han generado para los coleccionables y los elementos que producen daño. En este caso, los cuadrados con números se han usado como coleccionables y los alienígenas como daño. El mapa ha quedado de la siguiente manera:
 
 ![Map with everything](./Media/map_with_all.png)
+
+> El último bloque de tareas con el que trabajaremos será implementar algunas mecánicas útiles:
+Control del personaje 2D: En cada actualización, mediante el método Update(){ } avanzaremos el espacio que nos permite una velocidad speed, en el tiempo transcurrido. El intervalo de tiempo entre frames lo controla Time.deltaTime. Utiliza los ejes para dirigir la orientación del movimiento.
+Control del personaje 2D con rotación y avance hacia adelante: En cada actualización, mediante el método Update(){ } avanzaremos siempre hacia adelante el espacio que nos permite una velocidad speed, en el tiempo transcurrido. El eje X se usa para rotar y orientarnos hacia donde queremos caminar. El eje Y se usa para avanzar una vez que estamos orientados.
+
+El movimiento en ambos ejes es similar al de los ejercicios en 3D. El `Update()` se vería tal que así:
+```cs
+void Update()
+{
+
+    direction = moveAction.action.ReadValue<Vector2>();
+    transform.Translate(direction.normalized * speed * Time.deltaTime);
+    
+    if (direction.x > 0)
+    {
+        spriteRenderer.flipX = false;
+    } 
+    else if (direction.x < 0)
+    {
+        spriteRenderer.flipX = true;
+    }
+    
+}
+```
+
+Con la particularidad de hacer el flip del sprite dependiendo de si mira hacia un lado o hacia otro.
+
+![Move in X and Y](./Media/moveXY.gif)
+
+Para el caso de rotar y avanzar, el `Update()` es el siguiente:
+```cs
+void Update()
+{
+    rotateDirection = rotateAction.action.ReadValue<float>();
+    transform.Rotate(0, 0, rotateDirection * rotationSpeed * Time.deltaTime);
+    
+    moveDirection = new Vector2(moveAction.action.ReadValue<float>(), 0);
+    transform.Translate(moveDirection * moveSpeed * Time.deltaTime, Space.Self);
+
+    if (moveDirection.x > 0)
+    {
+        spriteRenderer.flipX = false;
+    }
+    else if (moveDirection.x < 0)
+    {
+        spriteRenderer.flipX = true;
+    }
+
+}
+```
+En este segundo caso, generamos un vector con movimiento únicamente en la X local del jugador. Se podría realizar algo similar utilizando transform.right porque el eje derecho del objeto en 3D coincide con el avance del objeto en 2D. Utilizando `Space.Self`, nos aseguramos de que la X sea local y no global. En este segundo caso, lo que ocurriría sería que en lugar de ir hacia delante, iría en el eje X del mundo continuamente, perdiendo la coherencia con la rotación.
+
+![Rotate and move](./Media/moveRotate.gif)

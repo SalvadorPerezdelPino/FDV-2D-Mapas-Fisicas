@@ -144,3 +144,12 @@ Aprovechando que el jugador era dinámico del ejercicio anterior, el resultado o
 ![Boost](./Media/areaEffector.gif)
 
 El jugador se desplaza con fuerzas hasta llegar al efector y sale disparado por la fuerza que ejerce.
+
+> Crea un enemigo que persiga al jugador, que arrastre una mascota peligrosa. Si el jugador está a una distancia mínima, la mascota rabiosa hará que pierda puntos.
+
+El código del enemigo es similar al de Físicas 3D. Un GameObject al que se le aplica una fuerza en dirección al jugador.
+Para la mascota, se añade un segundo GameObject y, en el primero, se utiliza un Distance Joint 2D, seleccionando como rigidbody a anclar, el de la mascota. De esta manera, siempre mantienen la misma distancia mientras persiguen al jugador. Aprovechando que todos los cuerpos son dinámicos, el mensaje de perder puntos lo he puesto en el OnCollisionEnter2D del enemigo. Si fuera un juego real, se podría llamar a cualquier función que reste puntos o vida en el jugador.
+
+El resultado es el siguiente:
+
+![Following Enemy](./Media/followingEnemy.gif)

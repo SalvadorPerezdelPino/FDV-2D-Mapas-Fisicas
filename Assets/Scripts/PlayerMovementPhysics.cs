@@ -20,12 +20,12 @@ public class PlayerMovementPhysics : MonoBehaviour
         moveAction.action.Enable();
     }
 
-    void Update()
+    void FixedUpdate()
     {
 
         direction = moveAction.action.ReadValue<Vector2>();
         
-        rb.AddForce(direction.normalized * speed * Time.deltaTime, ForceMode2D.Force);
+        rb.AddForce(direction.normalized * speed * Time.fixedTime, ForceMode2D.Force);
        
         if (direction.x > 0)
         {

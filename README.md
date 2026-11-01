@@ -100,3 +100,36 @@ void Update()
 En este segundo caso, generamos un vector con movimiento únicamente en la X local del jugador. Se podría realizar algo similar utilizando transform.right porque el eje derecho del objeto en 3D coincide con el avance del objeto en 2D. Utilizando `Space.Self`, nos aseguramos de que la X sea local y no global. En este segundo caso, lo que ocurriría sería que en lugar de ir hacia delante, iría en el eje X del mundo continuamente, perdiendo la coherencia con la rotación.
 
 ![Rotate and move](./Media/moveRotate.gif)
+
+
+> Desarrolla un script de movimiento del jugador asumiendo que responde a físicas.
+
+Para lograr que el personaje trabaje con físicas, es necesario añadirle un rigidbody junto con su collider y configurarlo como dinámico.
+El `Update()` en este caso sería el siguiente:
+
+```cs
+void Update()
+{
+
+    direction = moveAction.action.ReadValue<Vector2>();
+    
+    rb.AddForce(direction.normalized * speed * Time.deltaTime, ForceMode2D.Force);
+    
+    if (direction.x > 0)
+    {
+        spriteRenderer.flipX = false;
+    } 
+    else if (direction.x < 0)
+    {
+        spriteRenderer.flipX = true;
+    }
+    
+}
+```
+
+Como resultado, el jugador puede chocar con los obstáculos:
+
+![Move with Physics](./Media/movePhysics.gif)
+
+Al chocar, se puede ver que el sprite rota. Si se desea evitar esto, se puede bloquear la rotación del eje Z.
+

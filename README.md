@@ -105,15 +105,15 @@ En este segundo caso, generamos un vector con movimiento únicamente en la X loc
 > Desarrolla un script de movimiento del jugador asumiendo que responde a físicas.
 
 Para lograr que el personaje trabaje con físicas, es necesario añadirle un rigidbody junto con su collider y configurarlo como dinámico.
-El `Update()` en este caso sería el siguiente:
+El `FixedUpdate()` en este caso sería el siguiente:
 
 ```cs
-void Update()
+void FixedUpdate()
 {
 
     direction = moveAction.action.ReadValue<Vector2>();
     
-    rb.AddForce(direction.normalized * speed * Time.deltaTime, ForceMode2D.Force);
+    rb.AddForce(direction.normalized * speed * Time.fixedTime, ForceMode2D.Force);
     
     if (direction.x > 0)
     {
@@ -138,3 +138,9 @@ Al chocar, se puede ver que el sprite rota. Si se desea evitar esto, se puede bl
 Para ello, se configura un Area Effector con un Box Collider 2D de la siguiente manera:
 
 ![Area effector](./Media/effector.png)
+
+Aprovechando que el jugador era dinámico del ejercicio anterior, el resultado observado es el esperado:
+
+![Boost](./Media/areaEffector.gif)
+
+El jugador se desplaza con fuerzas hasta llegar al efector y sale disparado por la fuerza que ejerce.
